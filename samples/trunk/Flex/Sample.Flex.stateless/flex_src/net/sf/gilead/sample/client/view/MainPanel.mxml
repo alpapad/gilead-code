@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="500" xmlns:ns1="net.sf.gilead.sample.client.view.*"
+	       show="mainController.loadUserList(); consumer.subscribe();">
+	<mx:Consumer id="consumer" destination="messageChannel" message="messageHandler(event.message)"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.core.Application;
+			import mx.messaging.messages.IMessage;
+			import net.sf.gilead.sample.client.domain.Message;
+			import net.sf.gilead.sample.client.domain.User;
+			import net.sf.gilead.sample.client.controller.MainController;
+			import net.sf.gilead.sample.client.domain.ApplicationModel;
+			
+			/**
+			 * The User controller
+			 */
+			protected var mainController:MainController = new MainController();
+			
+			/**
+			 * Image for User node
+			 */
+			[Embed("net/sf/gilead/sample/client/view/images/user.gif")] 
+			private var userIcon:Class;
+			
+			/**
+			 * Image for Message leaf
+			 */
+			[Embed("net/sf/gilead/sample/client/view/images/message.png")] 
+			private var messageIcon:Class;
+				
+			/**
+			 * Icon function
+			 */		
+   			public function treeIcon(item:Object):Class 
+   			{
+   				var user:User = item as User;
+   				if (user != null)
+   				{	
+					return userIcon;
+   				}
+   				else
+   				{
+   					return messageIcon;
+   				}
+     		}
+     		
+     		/**
+     		 * Label function
+     		 */
+     		public function treeLabel(item:Object):String
+   			{
+   				var user:User = item as User;
+   				if (user != null)
+   				{	
+					return user.toString();
+   				}
+   				var message:Message = item as Message;
+   				if (message != null)
+   				{
+   					return message.toString();
+   				}
+   				
+   				return "unknown !";
+     		}
+     		
+     		/**
+     		 * Tree simple selection function
+     		 */
+     		private function onSelect(event:Event):void
+			{
+				var selectedUser:User = userTree.selectedItem as User;
+				if (selectedUser != null)
+				{
+					mainController.selectUser(selectedUser);
+				}
+				var selectedMessage:Message = userTree.selectedItem as Message;
+				if (selectedMessage != null)
+				{
+					mainController.selectMessage(selectedMessage);
+				}
+			}
+			
+			/**
+			 * Message handler
+			 */
+			private function messageHandler(message:IMessage):void
+            {
+                mainController.onReceivedMessage(message.body as Message, 
+                						 		 message.headers["deleted"] as Boolean);    
+            }
+			
+		]]>
+	</mx:Script>
+	<mx:HDividedBox left="0" right="0" top="0" bottom="0">
+		<mx:VBox height="100%">
+		<ns1:NewMessagePanel>
+		</ns1:NewMessagePanel>
+				  
+		<mx:Tree id="userTree"
+				 dataProvider="{ApplicationModel.getInstance().userList}"
+				 iconFunction="treeIcon" labelFunction="treeLabel"
+				 click="onSelect(event);"
+				 width="100%" height="100%"></mx:Tree>
+		</mx:VBox>		  
+		<mx:Panel width="100%" height="100%" layout="absolute" id="details" title="Details">
+			<ns1:UserPanel id="userDetails" top="0" left="0" right="0" bottom="0" visible="false">
+			</ns1:UserPanel>
+			<ns1:MessagePanel id="messageDetails" left="0" right="0" top="0" bottom="0" 
+							  visible="false"
+							  currentMessage="{ApplicationModel.getInstance().selectedMessage}">
+			</ns1:MessagePanel>
+			
+		</mx:Panel>
+	</mx:HDividedBox>
+	
+	
+</mx:Canvas>

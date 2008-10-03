@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="300" height="40">
+	<mx:Script>
+		<![CDATA[
+			import net.sf.gilead.sample.client.controller.MessageController;
+			
+			/**
+			 * The Message controller
+			 */
+			protected var messageController:MessageController = new MessageController();
+			
+			/**
+			 * Post message
+			 */
+			private function postMessage():void
+			{
+				messageController.createMessage(messageText.text);
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:TextInput x="10" y="10" id="messageText" width="211" enter="postMessage();"/>
+	<mx:Button x="229" y="10" label="Post" id="postButton" click="postMessage();"/>
+	
+</mx:Canvas>

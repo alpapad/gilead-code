@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service id="remoting-service" 
+    class="flex.messaging.services.RemotingService">
+
+    <adapters>
+        <adapter-definition id="hibernate-adapter"
+			class="net.sf.gilead.blazeds.adapter.HibernateAdapter"
+			default="true">
+			<properties>
+			    <persistence-factory>
+					<class>net.sf.gilead.sample.server.ApplicationContext</class>
+					<singleton>true</singleton>
+					<method>getSessionFactory</method>
+				</persistence-factory>
+			</properties>
+		</adapter-definition>
+    </adapters>
+
+    <default-channels>
+        <channel ref="my-amf"/>
+    </default-channels>
+    
+    <destination id="configurationService">
+    	<adapter ref="hibernate-adapter" />
+		<properties>
+			<source>net.sf.gilead.sample.server.remote.ConfigurationRemoteService</source>
+		    <scope>session</scope>
+		</properties>
+	</destination>
+	
+	<destination id="loginService">
+    	<adapter ref="hibernate-adapter" />
+		<properties>
+			<source>net.sf.gilead.sample.server.remote.LoginRemoteService</source>
+		    <scope>session</scope>
+		</properties>
+	</destination>
+	
+	<destination id="userService">
+    	<adapter ref="hibernate-adapter" />
+		<properties>
+			<source>net.sf.gilead.sample.server.remote.UserRemoteService</source>
+		    <scope>session</scope>
+		</properties>
+	</destination>
+	
+	<destination id="messageService">
+    	<adapter ref="hibernate-adapter" />
+		<properties>
+			<source>net.sf.gilead.sample.server.remote.MessageRemoteService</source>
+		    <scope>session</scope>
+		</properties>
+	</destination>
+
+</service>

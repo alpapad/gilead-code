@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service id="message-service" 
+    class="flex.messaging.services.MessageService">
+
+   <adapters>
+		<adapter-definition id="hibernate-adapter"
+			class="net.sf.gilead.blazeds.adapter.HibernateMessagingAdapter"
+			default="true">
+			<properties>
+			    <persistence-factory>
+					<class>net.sf.gilead.sample.server.ApplicationContext</class>
+					<singleton>true</singleton>
+					<method>getSessionFactory</method>
+				</persistence-factory>
+			</properties>
+		</adapter-definition>
+	</adapters>
+
+	<default-channels>
+		<channel ref="my-streaming-amf" />
+		<channel ref="my-polling-amf" />
+	</default-channels>
+	
+	<destination id="messageChannel">
+		<adapter ref="hibernate-adapter" />     
+    </destination>
+
+
+</service>
