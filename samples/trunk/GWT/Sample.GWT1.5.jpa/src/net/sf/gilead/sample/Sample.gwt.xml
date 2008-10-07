@@ -1,0 +1,22 @@
+<module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name='com.google.gwt.user.User'/>
+	<inherits name='com.google.gwt.i18n.I18N'/>
+	<inherits name='net.sf.gilead.Adapter4Gwt15'/>
+	<inherits name='net.sf.gilead.emul.java5.ejb3.Ejb3'/>
+	
+	<!-- Specify the app entry point class.                   -->
+	<entry-point class='net.sf.gilead.sample.client.Sample'/>
+	
+	<!-- Additional source path -->
+	<source path='domain'/>
+	<source path='exception'/>
+	<source path='client'/>
+  
+  	<!-- Servlet path -->
+  	<servlet path="/MessageRemote" class="net.sf.gilead.sample.server.gwt.MessageRemoteImpl"/>
+  	<servlet path="/LoginRemote" class="net.sf.gilead.sample.server.gwt.LoginRemoteImpl"/>
+  	<servlet path="/UserRemote" class="net.sf.gilead.sample.server.gwt.UserRemoteImpl"/>
+  	<servlet path="/ConfigurationRemote" class="net.sf.gilead.sample.server.gwt.ConfigurationRemoteImpl"/>
+</module>
