@@ -3,8 +3,8 @@
     class="flex.messaging.services.MessageService">
 
    <adapters>
-		<adapter-definition id="hibernate-adapter"
-			class="net.sf.gilead.blazeds.adapter.HibernateMessagingAdapter"
+		<adapter-definition id="persistent-adapter"
+			class="net.sf.gilead.blazeds.adapter.PersistentMessagingAdapter"
 			default="true">
 			<properties>
 			    <persistence-factory>
@@ -22,7 +22,7 @@
 	</default-channels>
 	
 	<destination id="messageChannel">
-		<adapter ref="hibernate-adapter" />     
+		<adapter ref="persistent-adapter" />     
     </destination>
 
 
