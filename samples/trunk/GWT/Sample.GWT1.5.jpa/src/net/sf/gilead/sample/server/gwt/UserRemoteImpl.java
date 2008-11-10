@@ -5,8 +5,8 @@ package net.sf.gilead.sample.server.gwt;
 
 import java.util.List;
 
-import net.sf.gilead.core.PersistenceBeanManager;
-import net.sf.gilead.gwt.HibernateRemoteService;
+import net.sf.gilead.core.PersistentBeanManager;
+import net.sf.gilead.gwt.PersistentRemoteService;
 import net.sf.gilead.sample.client.user.UserRemote;
 import net.sf.gilead.sample.domain.User;
 import net.sf.gilead.sample.server.ApplicationContext;
@@ -17,7 +17,7 @@ import net.sf.gilead.sample.server.service.IIdentificationService;
  * @author bruno.marchesson
  *
  */
-public class UserRemoteImpl extends HibernateRemoteService
+public class UserRemoteImpl extends PersistentRemoteService
 							implements UserRemote
 {
 	//----
@@ -60,7 +60,7 @@ public class UserRemoteImpl extends HibernateRemoteService
 	 */
 	public UserRemoteImpl()
 	{
-		setBeanManager((PersistenceBeanManager)ApplicationContext.getInstance().getBean("beanManager"));
+		setBeanManager((PersistentBeanManager)ApplicationContext.getInstance().getBean("beanManager"));
 		identificationService = (IIdentificationService) ApplicationContext.getInstance().getBean(IIdentificationService.NAME);
 	}
 

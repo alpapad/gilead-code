@@ -6,8 +6,8 @@ package net.sf.gilead.sample.server.gwt;
 
 import java.util.List;
 
-import net.sf.gilead.core.PersistenceBeanManager;
-import net.sf.gilead.gwt.HibernateRemoteService;
+import net.sf.gilead.core.PersistentBeanManager;
+import net.sf.gilead.gwt.PersistentRemoteService;
 import net.sf.gilead.sample.client.message.MessageRemote;
 import net.sf.gilead.sample.domain.Message;
 import net.sf.gilead.sample.server.ApplicationContext;
@@ -18,7 +18,7 @@ import net.sf.gilead.sample.server.service.IMessageService;
  * @author bruno.marchesson
  *
  */
-public class MessageRemoteImpl extends HibernateRemoteService
+public class MessageRemoteImpl extends PersistentRemoteService
 							   implements MessageRemote
 {
 	//----
@@ -61,7 +61,7 @@ public class MessageRemoteImpl extends HibernateRemoteService
 	 */
 	public MessageRemoteImpl()
 	{
-		setBeanManager((PersistenceBeanManager)ApplicationContext.getInstance().getBean("beanManager"));
+		setBeanManager((PersistentBeanManager)ApplicationContext.getInstance().getBean("beanManager"));
 		messageService = (IMessageService) ApplicationContext.getInstance().getBean(IMessageService.NAME);
 	}
 

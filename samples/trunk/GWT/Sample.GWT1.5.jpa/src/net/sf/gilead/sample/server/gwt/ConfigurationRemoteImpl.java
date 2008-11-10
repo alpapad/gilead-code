@@ -3,8 +3,8 @@
  */
 package net.sf.gilead.sample.server.gwt;
 
-import net.sf.gilead.core.PersistenceBeanManager;
-import net.sf.gilead.gwt.HibernateRemoteService;
+import net.sf.gilead.core.PersistentBeanManager;
+import net.sf.gilead.gwt.PersistentRemoteService;
 import net.sf.gilead.sample.client.configuration.ConfigurationRemote;
 import net.sf.gilead.sample.server.ApplicationContext;
 import net.sf.gilead.sample.server.service.IStartupService;
@@ -14,7 +14,7 @@ import net.sf.gilead.sample.server.service.IStartupService;
  * @author bruno.marchesson
  *
  */
-public class ConfigurationRemoteImpl extends HibernateRemoteService
+public class ConfigurationRemoteImpl extends PersistentRemoteService
 									 implements ConfigurationRemote
 {
 	//----
@@ -57,7 +57,7 @@ public class ConfigurationRemoteImpl extends HibernateRemoteService
 	 */
 	public ConfigurationRemoteImpl()
 	{
-		setBeanManager((PersistenceBeanManager)ApplicationContext.getInstance().getBean("beanManager"));
+		setBeanManager((PersistentBeanManager)ApplicationContext.getInstance().getBean("beanManager"));
 		_startupService = (IStartupService) ApplicationContext.getInstance().getBean(IStartupService.NAME);
 	}
 

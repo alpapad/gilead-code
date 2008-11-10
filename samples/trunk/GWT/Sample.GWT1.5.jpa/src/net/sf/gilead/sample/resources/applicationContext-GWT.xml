@@ -15,7 +15,7 @@
 	</bean>
 	
 	<bean id="beanManager"
-		class="net.sf.gilead.core.PersistenceBeanManager">
+		class="net.sf.gilead.core.PersistentBeanManager">
 		<property name="proxyStore" ref="proxyStore" />
 		<property name="persistenceUtil" ref="persistenceUtil" />
 	</bean>
