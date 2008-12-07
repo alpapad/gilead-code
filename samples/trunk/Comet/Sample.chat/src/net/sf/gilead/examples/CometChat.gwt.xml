@@ -1,0 +1,22 @@
+<module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name='com.google.gwt.user.User'/>
+
+    <inherits name="net.sf.gilead.Adapter4Gwt15"/>
+
+	<!-- Specify the app entry point class.                   -->
+	<entry-point class='net.sf.gilead.examples.client.CometChat'/>
+  
+    <!-- Specify the client translatable source               -->
+    <source path="client"/> 
+    <source path="rpc"/>
+    
+    <!-- Specify the app Remote service for RPC.              -->
+    <servlet class="net.sf.gilead.examples.server.ChatServicesImpl" path="/ChatServices"/>
+    
+  	<inherits name="com.google.gwt.user.theme.standard.Standard"/>
+  	<!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
+  	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
+  	
+</module>
