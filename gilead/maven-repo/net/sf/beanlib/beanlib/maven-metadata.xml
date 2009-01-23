@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+  <groupId>net.sf.beanlib</groupId>
+  <artifactId>beanlib</artifactId>
+  <version>3.3.0beta21b</version>
+  <versioning>
+    <latest>3.3.0beta21b</latest>
+    <versions>
+      <version>3.3.0beta20b</version>
+      <version>3.3.0beta21b</version>
+    </versions>
+    <lastUpdated>20090123205441</lastUpdated>
+  </versioning>
+</metadata>
