@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipseguru.gwt.core.launch.browser">
+<stringAttribute key="bad_container_name" value="Sample.Comet.Cha"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Sample.Comet.Chat"/>
+<booleanAttribute key="org.eclipseguru.gwt.core.launch.attribute.customURL" value="false"/>
+<stringAttribute key="org.eclipseguru.gwt.core.launch.attribute.loglevel" value="INFO"/>
+<stringAttribute key="org.eclipseguru.gwt.core.launch.attribute.moduleId" value="net.sf.gilead.examples.CometChat"/>
+<booleanAttribute key="org.eclipseguru.gwt.core.launch.attribute.noserver" value="false"/>
+<stringAttribute key="org.eclipseguru.gwt.core.launch.attribute.style" value="PRETTY"/>
+<stringAttribute key="org.eclipseguru.gwt.core.launch.attribute.url" value="net.sf.gilead.examples.CometChat/CometChat.html"/>
+<intAttribute key="org.eclipseguru.gwt.core.launchAttrPort" value="8888"/>
+</launchConfiguration>
