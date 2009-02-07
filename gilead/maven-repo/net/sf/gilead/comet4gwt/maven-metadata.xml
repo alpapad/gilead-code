@@ -3,9 +3,11 @@
   <artifactId>comet4gwt</artifactId>
   <version>1.2.0</version>
   <versioning>
+    <release>1.2.1</release>
     <versions>
       <version>1.2.0</version>
+      <version>1.2.1</version>
     </versions>
-    <lastUpdated>20081221023924</lastUpdated>
+    <lastUpdated>20090207191109</lastUpdated>
   </versioning>
 </metadata>
