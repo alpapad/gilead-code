@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.gilead</groupId>
 	<artifactId>gilead</artifactId>
@@ -64,6 +63,9 @@
 			<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
 		</pluginRepository>
 	</pluginRepositories>
+	<scm>
+	        <developerConnection>scm:svn:https://gilead.svn.sourceforge.net/svnroot/gilead/gilead/tags/gilead-1.2.1</developerConnection>
+	</scm>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -211,6 +213,15 @@
 	
 	<build>
 		<plugins>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.0-beta-7</version>
+				<configuration>
+					<tagBase>https://gilead.svn.sourceforge.net/svnroot/gilead/gilead/tags/</tagBase>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
