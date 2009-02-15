@@ -41,6 +41,10 @@
 			<artifactId>jboss-serialization</artifactId>
 		</dependency>
 		<dependency>
+		        <groupId>trove</groupId>
+			<artifactId>trove</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
 		</dependency>
