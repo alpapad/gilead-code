@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+	
+	<!-- Gilead configuration -->
+	<bean id="proxyStore"
+		class="net.sf.gilead.core.store.stateless.StatelessProxyStore" />
+	
+	<bean id="persistenceUtil" class="net.sf.gilead.core.hibernate.HibernateUtil">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="classMapper"
+		class="net.sf.gilead.core.beanlib.mapper.ProxyClassMapper">
+		<property name="persistenceUtil" ref="persistenceUtil" />
+	</bean>
+	
+	<bean id="beanManager"
+		class="net.sf.gilead.core.PersistentBeanManager">
+		<property name="proxyStore" ref="proxyStore" />
+		<property name="persistenceUtil" ref="persistenceUtil" />
+		<property name="classMapper" ref="classMapper" />
+	</bean>
+</beans>

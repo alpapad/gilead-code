@@ -1,0 +1,25 @@
+<module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name='com.google.gwt.user.User'/>
+	<inherits name='com.google.gwt.i18n.I18N'/>
+	<inherits name='net.sf.gilead.Adapter4Gwt15'/>
+	
+	<!-- Specify the app entry point class.                   -->
+	<entry-point class='net.sf.gilead.sample.client.Sample'/>
+	
+	<!-- Additional source path -->
+	<source path='domain'/>
+	<source path='client'/>
+	
+  	<!-- Generator -->
+  	<generate-with class="net.sf.gilead.proxy.gwt.Gwt15ProxyGenerator">
+		<when-type-assignable class="java.io.Serializable" />
+	</generate-with>
+	
+  	<!-- Servlet path -->
+  	<servlet path="/MessageRemote" class="net.sf.gilead.sample.server.gwt.MessageRemoteImpl"/>
+  	<servlet path="/LoginRemote" class="net.sf.gilead.sample.server.gwt.LoginRemoteImpl"/>
+  	<servlet path="/UserRemote" class="net.sf.gilead.sample.server.gwt.UserRemoteImpl"/>
+  	<servlet path="/ConfigurationRemote" class="net.sf.gilead.sample.server.gwt.ConfigurationRemoteImpl"/>
+</module>
