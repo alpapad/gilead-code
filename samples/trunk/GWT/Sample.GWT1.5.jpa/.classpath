@@ -23,8 +23,8 @@
 	<classpathentry kind="lib" path="lib/javassist.jar"/>
 	<classpathentry kind="lib" path="lib/beanlib-3.3.0beta21b.jar"/>
 	<classpathentry kind="lib" path="lib/beanlib-hibernate-3.3.0beta21b.jar"/>
-	<classpathentry kind="lib" path="lib/adapter4gwt-1.2.0.29.jar"/>
 	<classpathentry kind="lib" path="lib/adapter-core-1.2.0.29.jar"/>
+	<classpathentry kind="lib" path="lib/adapter4gwt-1.2.0.29.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-jpa-util-1.2.0.29.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

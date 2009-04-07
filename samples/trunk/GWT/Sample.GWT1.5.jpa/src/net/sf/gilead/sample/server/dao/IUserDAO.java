@@ -34,7 +34,7 @@ public interface IUserDAO {
      */
     public List<User> loadAll();
     
-    /**
+   /**
      * Count all the users
      */
     public int countAll();
