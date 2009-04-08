@@ -25,5 +25,5 @@ public interface UserRemoteAsync
      * Save the argument user
      * @param user the user to save or create
      */
-	public void saveUser(User user, AsyncCallback<Void> callback);
+	public void saveUser(User user, AsyncCallback<User> callback);
 }

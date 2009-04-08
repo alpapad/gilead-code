@@ -69,7 +69,7 @@ public class UserRemoteService extends PersistentRemoteService
 				
 			// create welcome messages
 			Message message1 = new Message();
-			message1.setMessage("Fiest message");
+			message1.setMessage("First message");
 			message1.setDate(new Date());
 			user.addMessage(message1);
 			
@@ -189,7 +189,7 @@ public class UserRemoteService extends PersistentRemoteService
      * Save the argument user
      * @param user the user to save or create
      */
-	public void saveUser(User user)
+	public User saveUser(User user)
 	{
 		Session session = null;
 		Transaction transaction = null;
@@ -204,6 +204,8 @@ public class UserRemoteService extends PersistentRemoteService
 		//
 			session.saveOrUpdate(user);
 			transaction.commit();
+			
+			return user;
 		}
 		catch (RuntimeException e)
 		{

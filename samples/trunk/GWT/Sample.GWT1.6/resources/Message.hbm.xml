@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="net.sf.gilead.test.domain.stateless.Message" table="GIL_MESSAGE">
+    <class name="net.sf.gilead.sample.domain.Message" table="GIL_MESSAGE">
         <id name="id" type="integer">
             <column name="ID" />
             <generator class="native" />

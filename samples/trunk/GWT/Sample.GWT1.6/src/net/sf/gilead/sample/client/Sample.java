@@ -1,11 +1,15 @@
 package net.sf.gilead.sample.client;
 
+import net.sf.gilead.sample.client.remote.UserRemote;
+import net.sf.gilead.sample.domain.Message;
 import net.sf.gilead.sample.domain.User;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -13,7 +17,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -27,6 +30,7 @@ public class Sample implements EntryPoint
 	 * The current user
 	 */
 	private User user;
+	
 	/**
 	 * New message text box
 	 */
@@ -77,6 +81,22 @@ public class Sample implements EntryPoint
 	 */
 	private Button saveUserButton;
 	
+	//----
+	// Properties
+	//----
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	//-------------------------------------------------------------------------
+	//
+	// Public interface
+	//
+	//-------------------------------------------------------------------------
 	/**
 	 * Module entry point.
 	 * Used to make graphic initialization
@@ -89,6 +109,7 @@ public class Sample implements EntryPoint
 		verticalPanel.setSize("100%", "100%");
 
 		final Label gileadSampleApplicationLabel = new Label("Gilead sample application");
+		gileadSampleApplicationLabel.setStyleName("title");
 		verticalPanel.add(gileadSampleApplicationLabel);
 
 		final Grid grid = new Grid();
@@ -138,14 +159,18 @@ public class Sample implements EntryPoint
 		postButton.setText("Post");
 
 		final Label serverOnlyLabel = new Label("@ServerOnly");
+		serverOnlyLabel.setStyleName("comment");
 		grid.setWidget(3, 2, serverOnlyLabel);
 
 		final Label readOnlyLabel = new Label("@ReadOnly");
+		readOnlyLabel.setStyleName("comment");
 		grid.setWidget(0, 2, readOnlyLabel);
 
 		messagesListBox = new ListBox();
+		messagesListBox.setStyleName("gwt-TextArea");
 		grid.setWidget(4, 1, messagesListBox);
 		messagesListBox.setVisibleItemCount(5);
+		messagesListBox.setWidth("100%");
 
 		final HorizontalPanel horizontalPanel = new HorizontalPanel();
 		verticalPanel.add(horizontalPanel);
@@ -154,29 +179,111 @@ public class Sample implements EntryPoint
 
 		loadUserButton = new Button();
 		horizontalPanel.add(loadUserButton);
-		loadUserButton.setWidth("33%");
 		loadUserButton.setText("Load user without messages");
-		loadUserButton.addClickListener(new ClickListener() {
-			public void onClick(Widget sender) {
-				Window.alert("Hello, GWT World!");
+		loadUserButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				loadUser();
 			}
 		});
 
 		loadUserAndMessagesButton = new Button();
 		horizontalPanel.add(loadUserAndMessagesButton);
-		loadUserAndMessagesButton.setWidth("33%");
 		loadUserAndMessagesButton.setText("Load user and messages");
+		loadUserAndMessagesButton.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				loadUserWithMessages();
+			}
+		});
+		
 
 		saveUserButton = new Button();
 		horizontalPanel.add(saveUserButton);
 		saveUserButton.setText("Save User");
+		saveUserButton.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				saveUser();
+			}
+		});
 	}
+	
 	
 	//-------------------------------------------------------------------------
 	//
 	// Internal methods
 	//
 	//-------------------------------------------------------------------------
+	/**
+	 * Load user without messages
+	 */
+	private void loadUser()
+	{
+		UserRemote.Util.getInstance().loadUserByLogin("test", new AsyncCallback<User>(){
+
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				Window.alert(caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(User result)
+			{
+				setUser(result);
+				updateDisplay();
+			}
+			
+		});
+	}
+	
+	/**
+	 * Load user with messages
+	 */
+	private void loadUserWithMessages()
+	{
+		UserRemote.Util.getInstance().loadUserAndMessagesByLogin("test", new AsyncCallback<User>(){
+
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				Window.alert(caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(User result)
+			{
+				setUser(result);
+				updateDisplay();
+			}
+		});
+	}
+	
+	/**
+	 * Save user
+	 */
+	private void saveUser()
+	{
+	//	Update bean from text fields
+	//
+		updateUser();
+		
+		UserRemote.Util.getInstance().saveUser(user, new AsyncCallback<User>(){
+
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				Window.alert(caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(User result)
+			{
+				setUser(result);
+				updateDisplay();
+			}
+			
+		});
+	}
+	
 	/**
 	 * Update the underlying user from text fields values
 	 */
@@ -197,5 +304,16 @@ public class Sample implements EntryPoint
 		lastNameTextBox.setText(user.getLastName());
 		loginTextBox.setText(user.getLogin());
 		passwordTextBox.setText(user.getPassword());
+		
+	//	Display messages
+	//
+		messagesListBox.clear();
+		if (user.getMessageList() != null)
+		{
+			for(Message message : user.getMessageList())
+			{
+				messagesListBox.addItem(message.getMessage());
+			}
+		}
 	}
 }

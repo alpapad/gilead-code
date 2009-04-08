@@ -22,7 +22,7 @@ public class HibernateContext
 	 * The stateful configuration file
 	 */
 	private static final String CONFIGURATION_FILE = 
-		"resources/hibernate.cfg.xml";
+		"hibernate.cfg.xml";
 	
 	
 	//----

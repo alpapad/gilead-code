@@ -7,7 +7,7 @@ import net.sf.gilead.sample.domain.User;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 
 /**
@@ -15,6 +15,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
  * @author bruno.marchesson
  *
  */
+@RemoteServiceRelativePath("UserRemote")
 public interface UserRemote extends RemoteService
 {
 	/**
@@ -25,8 +26,6 @@ public interface UserRemote extends RemoteService
 		public static UserRemoteAsync getInstance(){
 			if (instance == null) {
 				instance = (UserRemoteAsync) GWT.create(UserRemote.class);
-				ServiceDefTarget target = (ServiceDefTarget) instance;
-				target.setServiceEntryPoint(GWT.getModuleBaseURL() + "/UserRemote");
 			}
 			return instance;
 		}
@@ -45,7 +44,8 @@ public interface UserRemote extends RemoteService
 	/**
      * Save the argument user
      * @param user the user to save or create
+     * @return the created user
      */
-	public void saveUser(User user);
+	public User saveUser(User user);
 	
 }
