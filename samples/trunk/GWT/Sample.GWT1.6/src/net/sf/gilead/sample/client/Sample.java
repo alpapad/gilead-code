@@ -1,5 +1,7 @@
 package net.sf.gilead.sample.client;
 
+import java.util.Date;
+
 import net.sf.gilead.sample.client.remote.UserRemote;
 import net.sf.gilead.sample.domain.Message;
 import net.sf.gilead.sample.domain.User;
@@ -39,7 +41,7 @@ public class Sample implements EntryPoint
 	/**
 	 * Post new message button
 	 */
-	private Button postButton;
+	private Button addMessageButton;
 	
 	/**
 	 * Current user login
@@ -137,6 +139,7 @@ public class Sample implements EntryPoint
 		loginTextBox = new TextBox();
 		grid.setWidget(0, 1, loginTextBox);
 		loginTextBox.setWidth("150px");
+		loginTextBox.setTitle("This field will never get updated when back on server.");
 
 		firstNameTextBox = new TextBox();
 		grid.setWidget(1, 1, firstNameTextBox);
@@ -149,14 +152,21 @@ public class Sample implements EntryPoint
 		passwordTextBox = new TextBox();
 		grid.setWidget(3, 1, passwordTextBox);
 		passwordTextBox.setWidth("100%");
+		passwordTextBox.setTitle("This field will never get filled.");
 
 		newMessageTextBox = new TextBox();
 		grid.setWidget(5, 1, newMessageTextBox);
 		newMessageTextBox.setWidth("100%");
 
-		postButton = new Button();
-		grid.setWidget(5, 2, postButton);
-		postButton.setText("Post");
+		addMessageButton = new Button();
+		grid.setWidget(5, 2, addMessageButton);
+		addMessageButton.setText("Add");
+		addMessageButton.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event)
+			{
+				addMessage();
+			}
+		});
 
 		final Label serverOnlyLabel = new Label("@ServerOnly");
 		serverOnlyLabel.setStyleName("comment");
@@ -167,7 +177,6 @@ public class Sample implements EntryPoint
 		grid.setWidget(0, 2, readOnlyLabel);
 
 		messagesListBox = new ListBox();
-		messagesListBox.setStyleName("gwt-TextArea");
 		grid.setWidget(4, 1, messagesListBox);
 		messagesListBox.setVisibleItemCount(5);
 		messagesListBox.setWidth("100%");
@@ -262,6 +271,12 @@ public class Sample implements EntryPoint
 	 */
 	private void saveUser()
 	{
+	//	Precondition checking
+	//
+		if (user == null)
+		{
+			return;
+		}
 	//	Update bean from text fields
 	//
 		updateUser();
@@ -279,9 +294,36 @@ public class Sample implements EntryPoint
 			{
 				setUser(result);
 				updateDisplay();
+				
+				Window.alert("User has been saved");
 			}
 			
 		});
+	}
+	
+	private void addMessage()
+	{
+	//	Precondition checking
+	//
+		if ((user == null) ||
+			(newMessageTextBox.getText() == null))
+		{
+			return;
+		}
+		
+	//	Create new message
+	//
+		Message message = new Message();
+		message.setAuthor(user);
+		message.setDate(new Date());
+		message.setMessage(newMessageTextBox.getText());
+		user.addMessage(message);
+		
+		newMessageTextBox.setText(null);
+		
+	//	Update display
+	//
+		updateDisplay();
 	}
 	
 	/**
