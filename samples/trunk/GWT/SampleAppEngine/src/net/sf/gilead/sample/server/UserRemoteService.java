@@ -18,7 +18,6 @@ import net.sf.gilead.sample.domain.User;
 
 import com.google.appengine.repackaged.org.apache.commons.logging.Log;
 import com.google.appengine.repackaged.org.apache.commons.logging.LogFactory;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * Remote service for sample application
@@ -115,20 +114,8 @@ public class UserRemoteService extends EngineRemoteService//RemoteServiceServlet
 		//
 			User user = (User) query.getSingleResult();
 			transaction.commit();
-			
-			Field field = user.getClass().getDeclaredField("messageList");
-			field.setAccessible(true);
-			field.set(user, null);
-			
-			return user;
-//			User cloneUser  = new User();
-//			cloneUser.setId("1");
-//			cloneUser.setFirstName("test");
-//			cloneUser.setLastName("last");
-//			cloneUser.setLogin("login");
-//			
-//			return cloneUser;
 
+			return user;
 		}
 		catch (Exception e)
 		{
