@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<additionalCode suffix="_h4gwt14" implementedInterface="net.sf.gilead.pojo.base.ILightEntity">
+	<!--
+		ATTRIBUTES 
+	 -->
+    <attributes>
+    	<attribute name="_proxyInformations" visibility= "protected" 
+    			   type="java.util.Map" defaultValue="new java.util.HashMap()">
+    		<javadoc>
+    			<![CDATA[
+    				@gwt.typeArgs <java.lang.String, java.lang.String>
+    			]]>
+    		</javadoc>
+    	</attribute>
+    </attributes>
+    
+    <!--
+    	METHODS 
+     -->
+    <methods>
+    	<!-- addProxyInformation -->
+    	<method visibility="public" returnType="void" name="addProxyInformation">
+    		<parameters>
+    			<parameter type="String" name="property" />
+    			<parameter type="String" name="proxyInformation" />
+    		</parameters>
+    		<code>
+    			{ _proxyInformations.put(property, proxyInformation); }
+    		</code>
+    	</method>
+    	
+    	<!--  removeProxyInformation -->
+    	<method visibility="public" returnType="void" name="removeProxyInformation" javadoc="">
+    		<parameters>
+    			<parameter type="String" name="property" />
+    		</parameters>
+    		<code>
+    			{ _proxyInformations.remove(property); }
+    		</code>
+    	</method>
+    	
+    	<!-- getProxyInformation -->
+    	<method visibility="public" returnType="String" name="getProxyInformation">
+    		<parameters>
+    			<parameter type="String" name="property" />
+    		</parameters>
+    		<code>
+    			{ return (String) _proxyInformations.get(property); }
+    		</code>
+    	</method>
+    	
+    	<!-- getLazyString -->
+    	<method visibility="public" returnType="String" name="getDebugString" javadoc="">
+    		<code>
+    		{ return _proxyInformations.toString(); }
+			</code>
+    	</method>
+    	
+    	<!-- getProxyInformations -->
+    	<method visibility="public" returnType="java.util.Map" name="getProxyInformations">
+    		<javadoc>
+    			<![CDATA[
+    				javadoc="![CDATA[@gwt.typeArgs <java.lang.String, java.lang.String>
+    			]]>
+    		</javadoc>
+    		<code>
+    			{ return _proxyInformations; }
+    		</code>
+    	</method>
+    	
+    	<!-- setProxyInformations-->
+    	<method visibility="public" returnType="void" name="setProxyInformations" >
+    		<javadoc>
+    			<![CDATA[
+    				@gwt.typeArgs proxyInformations <java.lang.String, java.lang.String>
+    			]]>
+    		</javadoc>
+    		<parameters>
+    			<parameter type="java.util.Map" name="proxyInformations" />
+    		</parameters>
+    		<code>
+    			{ _proxyInformations = proxyInformations; }
+    		</code>
+    	</method>
+    </methods>
+</additionalCode>
