@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import junit.framework.TestCase;
@@ -1262,6 +1263,47 @@ public abstract class CloneTest extends TestCase
 	
 	/**
 	 * Test delete collection on client side
+	 */
+	public void testDeleteAndNullifyCollectionAfterClone() throws Exception
+	{  
+	//	Get UserDAO
+	//
+		IUserDAO userDAO = DAOFactory.getUserDAO();
+		assertNotNull(userDAO);
+		
+	//	Load user
+	//
+		IUser user = userDAO.searchUserAndMessagesByLogin(TestHelper.GUEST_LOGIN);
+		assertNotNull(user);
+		assertNotNull(user.getMessageList());
+		assertFalse(user.getMessageList().isEmpty());
+		
+	//	Clone user
+	//
+		IUser cloneUser = (IUser) _beanManager.clone(user); 
+		 
+		// nullify messages list
+		cloneUser.getClass().getMethod("setMessageList", Set.class).invoke(cloneUser, (Set<IMessage>)null); 
+		 
+	//	Merge user
+	//
+		IUser mergeUser = (IUser) _beanManager.merge(cloneUser); 
+		assertNotNull(mergeUser);
+		assertNull(mergeUser.getMessageList());
+		 
+	//	Save merged user
+	//
+		userDAO.saveUser(mergeUser);
+		
+	//	Reload user to count messages
+	//
+		user = userDAO.searchUserAndMessagesByLogin(TestHelper.JUNIT_LOGIN);
+		assertNotNull(user);
+		assertTrue(user.getMessageList() == null || user.getMessageList().isEmpty());
+	}
+	
+	/**
+	 * Test new collection on client side
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 */
