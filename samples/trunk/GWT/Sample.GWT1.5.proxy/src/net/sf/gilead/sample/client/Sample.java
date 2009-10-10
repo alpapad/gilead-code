@@ -104,6 +104,7 @@ public class Sample implements EntryPoint, HistoryListener
 	//
 		GWT.create(User.class);
 		GWT.create(Message.class);
+		GWT.create(Message.MessageType.class);
 		
 	//	Fill application parameters
 	//

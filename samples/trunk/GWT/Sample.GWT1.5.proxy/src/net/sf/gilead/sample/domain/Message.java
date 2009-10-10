@@ -12,6 +12,33 @@ import java.util.Date;
 public class Message implements Serializable
 {
 	/**
+	 * Inner type.
+	 * No  business meaning, just for debug
+	 */
+	public static class MessageType implements Serializable
+	{ 
+		private static final long serialVersionUID = 1L; 
+		private String type; 
+		
+		public MessageType()
+		{
+		}
+		
+		public MessageType(String typeString)
+		{ 
+			this.type = typeString; 
+		}
+		
+		public String getType() {
+			return type;
+		}
+		public void setType(String type) {
+			this.type = type;
+		} 
+	} 
+		 
+	
+	/**
 	 * Serialisation ID
 	 */
 	private static final long serialVersionUID = 3445339493203407152L;
@@ -24,6 +51,8 @@ public class Message implements Serializable
     
     private User author;
     
+    public MessageType MESSAGE_TYPE_INFO = new MessageType("info"); 
+
     // Properties
 	/**
 	 * @return the id
