@@ -4,12 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
+import com.google.appengine.api.datastore.Key;
 
 /**
  * User Domain class for JAVA5 server
@@ -25,8 +26,7 @@ public class User implements Serializable
 	// Fields
 	@PrimaryKey
 	@Persistent(valueStrategy=IdGeneratorStrategy.IDENTITY)
-	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
-	private String id;
+	private Key id;
     
 	@Persistent
 	private String login;
@@ -44,11 +44,11 @@ public class User implements Serializable
 	private List<Message> messageList;
 
 	// Properties
-	public String getId() {
+	public Key getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Key id) {
 		this.id = id;
 	}
 	

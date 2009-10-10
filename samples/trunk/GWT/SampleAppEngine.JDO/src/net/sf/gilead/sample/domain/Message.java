@@ -10,6 +10,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
+
 
 /**
  * Message domain class for Java5 Hibernate POJO
@@ -27,8 +29,7 @@ public class Message implements Serializable
 	//	Fields    
 	@PrimaryKey
 	@Persistent(valueStrategy=IdGeneratorStrategy.IDENTITY)
-	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
-	private String id;
+	private Key id;
     
 	@Persistent
 	private String message;
@@ -45,13 +46,13 @@ public class Message implements Serializable
 	/* (non-Javadoc)
 	 * @see net.sf.hibernate4gwt.testApplication.domain.IMessage#getId()
 	 */
-    public final String getId() {
+    public final Key getId() {
 		return id;
 	}
 	/* (non-Javadoc)
 	 * @see net.sf.hibernate4gwt.testApplication.domain.IMessage#setId(java.lang.Integer)
 	 */
-	public final void setId(String id) {
+	public final void setId(Key id) {
 		this.id = id;
 	}
 	

@@ -12,13 +12,20 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -118,115 +125,12 @@ public class SampleAppEngine implements EntryPoint {
 		gileadSampleApplicationLabel.setStyleName("title");
 		verticalPanel.add(gileadSampleApplicationLabel);
 
-		final Grid grid = new Grid();
-		verticalPanel.add(grid);
-		grid.resize(6, 3);
-
-		final Label loginLabel = new Label("Login");
-		grid.setWidget(0, 0, loginLabel);
-
-		final Label firstNameLabel = new Label("First Name");
-		grid.setWidget(1, 0, firstNameLabel);
-
-		final Label lastNameLabel = new Label("Last Name");
-		grid.setWidget(2, 0, lastNameLabel);
-
-		final Label passwordLabel = new Label("Password");
-		grid.setWidget(3, 0, passwordLabel);
-
-		final Label messagesLabel = new Label("Messages");
-		grid.setWidget(4, 0, messagesLabel);
-
-		final Label newMessageLabel = new Label("New message");
-		grid.setWidget(5, 0, newMessageLabel);
-
-		loginTextBox = new TextBox();
-		grid.setWidget(0, 1, loginTextBox);
-		loginTextBox.setWidth("150px");
-		loginTextBox.setTitle("This field will never get updated when back on server.");
-
-		firstNameTextBox = new TextBox();
-		grid.setWidget(1, 1, firstNameTextBox);
-		firstNameTextBox.setWidth("100%");
-
-		lastNameTextBox = new TextBox();
-		grid.setWidget(2, 1, lastNameTextBox);
-		lastNameTextBox.setWidth("100%");
-
-		passwordTextBox = new TextBox();
-		grid.setWidget(3, 1, passwordTextBox);
-		passwordTextBox.setWidth("100%");
-	
-		newMessageTextBox = new TextBox();
-		grid.setWidget(5, 1, newMessageTextBox);
-		newMessageTextBox.setWidth("100%");
-
-		addMessageButton = new Button();
-		grid.setWidget(5, 2, addMessageButton);
-		addMessageButton.setText("Add");
-		addMessageButton.addClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event)
-			{
-				addMessage();
-			}
-		});
-
-		messagesListBox = new ListBox();
-		grid.setWidget(4, 1, messagesListBox);
-		messagesListBox.setVisibleItemCount(5);
-		messagesListBox.setWidth("100%");
 		
-		modifyMessageButton = new Button();
-		modifyMessageButton.setText("Modify");
-		modifyMessageButton.addClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event)
-			{
-				if (messagesListBox.getSelectedIndex() != -1)
-				{
-					modifyMessage(messagesListBox.getItemText(messagesListBox.getSelectedIndex()));
-				}
-			}
-		});
+		verticalPanel.add(createUserPanel());
 		
-		deleteMessageButton = new Button();
-		deleteMessageButton.setText("Delete");
-		deleteMessageButton.addClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event)
-			{
-				if (messagesListBox.getSelectedIndex() != -1)
-				{
-					deleteMessage(messagesListBox.getItemText(messagesListBox.getSelectedIndex()));
-				}
-			}
-		});
+		verticalPanel.add(new HTML("<hr/>"));
 		
-		VerticalPanel buttonPanel = new VerticalPanel();
-		buttonPanel.add(modifyMessageButton);
-		buttonPanel.add(deleteMessageButton);
-		grid.setWidget(4, 2, buttonPanel);
-		
-		final HorizontalPanel horizontalPanel = new HorizontalPanel();
-		verticalPanel.add(horizontalPanel);
-		horizontalPanel.setWidth("100%");
-		horizontalPanel.setSpacing(1);
-
-		loadUserButton = new Button();
-		horizontalPanel.add(loadUserButton);
-		loadUserButton.setText("Load user");
-		loadUserButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				loadUser();
-			}
-		});
-
-		saveUserButton = new Button();
-		horizontalPanel.add(saveUserButton);
-		saveUserButton.setText("Save User");
-		saveUserButton.addClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event) {
-				saveUser();
-			}
-		});
+		verticalPanel.add(createUploadPanel());
 	}
 	
 	
@@ -384,5 +288,168 @@ public class SampleAppEngine implements EntryPoint {
 				messagesListBox.addItem(message.getMessage());
 			}
 		}
+	}
+	
+	private Grid createUserPanel()
+	{
+		final Grid grid = new Grid();
+		grid.resize(6, 3);
+
+		final Label loginLabel = new Label("Login");
+		grid.setWidget(0, 0, loginLabel);
+
+		final Label firstNameLabel = new Label("First Name");
+		grid.setWidget(1, 0, firstNameLabel);
+
+		final Label lastNameLabel = new Label("Last Name");
+		grid.setWidget(2, 0, lastNameLabel);
+
+		final Label passwordLabel = new Label("Password");
+		grid.setWidget(3, 0, passwordLabel);
+
+		final Label messagesLabel = new Label("Messages");
+		grid.setWidget(4, 0, messagesLabel);
+
+		final Label newMessageLabel = new Label("New message");
+		grid.setWidget(5, 0, newMessageLabel);
+
+		loginTextBox = new TextBox();
+		grid.setWidget(0, 1, loginTextBox);
+		loginTextBox.setWidth("150px");
+		loginTextBox.setTitle("This field will never get updated when back on server.");
+
+		firstNameTextBox = new TextBox();
+		grid.setWidget(1, 1, firstNameTextBox);
+		firstNameTextBox.setWidth("100%");
+
+		lastNameTextBox = new TextBox();
+		grid.setWidget(2, 1, lastNameTextBox);
+		lastNameTextBox.setWidth("100%");
+
+		passwordTextBox = new TextBox();
+		grid.setWidget(3, 1, passwordTextBox);
+		passwordTextBox.setWidth("100%");
+	
+		newMessageTextBox = new TextBox();
+		grid.setWidget(5, 1, newMessageTextBox);
+		newMessageTextBox.setWidth("100%");
+
+		addMessageButton = new Button();
+		grid.setWidget(5, 2, addMessageButton);
+		addMessageButton.setText("Add");
+		addMessageButton.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event)
+			{
+				addMessage();
+			}
+		});
+
+		messagesListBox = new ListBox();
+		grid.setWidget(4, 1, messagesListBox);
+		messagesListBox.setVisibleItemCount(5);
+		messagesListBox.setWidth("100%");
+		
+		modifyMessageButton = new Button();
+		modifyMessageButton.setText("Modify");
+		modifyMessageButton.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event)
+			{
+				if (messagesListBox.getSelectedIndex() != -1)
+				{
+					modifyMessage(messagesListBox.getItemText(messagesListBox.getSelectedIndex()));
+				}
+			}
+		});
+		
+		deleteMessageButton = new Button();
+		deleteMessageButton.setText("Delete");
+		deleteMessageButton.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event)
+			{
+				if (messagesListBox.getSelectedIndex() != -1)
+				{
+					deleteMessage(messagesListBox.getItemText(messagesListBox.getSelectedIndex()));
+				}
+			}
+		});
+		
+		VerticalPanel buttonPanel = new VerticalPanel();
+		buttonPanel.add(modifyMessageButton);
+		buttonPanel.add(deleteMessageButton);
+		grid.setWidget(4, 2, buttonPanel);
+		
+		final HorizontalPanel horizontalPanel = new HorizontalPanel();
+		grid.setWidget(5, 0, horizontalPanel);
+		horizontalPanel.setWidth("100%");
+		horizontalPanel.setSpacing(1);
+
+		loadUserButton = new Button();
+		horizontalPanel.add(loadUserButton);
+		loadUserButton.setText("Load user");
+		loadUserButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				loadUser();
+			}
+		});
+
+		saveUserButton = new Button();
+		horizontalPanel.add(saveUserButton);
+		saveUserButton.setText("Save User");
+		saveUserButton.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				saveUser();
+			}
+		});
+		
+		return grid;
+	}
+	
+	private FormPanel createUploadPanel()
+	{
+		// Create a FormPanel and point it at a service.
+	    final FormPanel form = new FormPanel();
+	    form.setAction("/sampleappengine/uploadHandler");
+
+	    // Because we're going to add a FileUpload widget, we'll need to set the
+	    // form to use the POST method, and multipart MIME encoding.
+	    form.setEncoding(FormPanel.ENCODING_MULTIPART);
+	    form.setMethod(FormPanel.METHOD_POST);
+
+	    // Create a panel to hold all of the form widgets.
+	    VerticalPanel panel = new VerticalPanel();
+	    form.setWidget(panel);
+
+	    // Create a FileUpload widget.
+	    FileUpload upload = new FileUpload();
+	    upload.setName("upload");
+	    panel.add(upload);
+
+	    // Add a 'submit' button.
+	    panel.add(new Button("Submit", new ClickHandler() {
+	      public void onClick(ClickEvent event) {
+	        form.submit();
+	      }
+	    }));
+
+	    // Add an event handler to the form.
+	    form.addSubmitHandler(new SubmitHandler() {
+	      public void onSubmit(SubmitEvent event) {
+	        // This event is fired just before the form is submitted. We can take
+	        // this opportunity to perform validation.
+	    	  Window.alert(event.toDebugString());
+	      }
+	    });
+	    
+	    form.addSubmitCompleteHandler(new SubmitCompleteHandler(){
+	      public void onSubmitComplete(SubmitCompleteEvent event) {
+	        // When the form submission is successfully completed, this event is
+	        // fired. Assuming the service returned a response of type text/html,
+	        // we can get the result text here (see the FormPanel documentation for
+	        // further explanation).
+	        Window.alert(event.getResults());
+	      }
+	    });
+
+	    return form;
 	}
 }

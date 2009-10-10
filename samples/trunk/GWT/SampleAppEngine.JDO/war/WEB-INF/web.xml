@@ -11,7 +11,7 @@
   </welcome-file-list>
   
   <!-- Servlets -->
-   <servlet>
+  <servlet>
     <servlet-name>userRemoteService</servlet-name>
     <servlet-class>net.sf.gilead.sample.server.UserRemoteService</servlet-class>
   </servlet>
@@ -19,6 +19,17 @@
   <servlet-mapping>
     <servlet-name>userRemoteService</servlet-name>
     <url-pattern>/sampleappengine/UserRemote</url-pattern>
+  </servlet-mapping>
+  
+   <!-- Servlets -->
+  <servlet>
+    <servlet-name>uploadServlet</servlet-name>
+    <servlet-class>net.sf.gilead.sample.server.UploadFileServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>uploadServlet</servlet-name>
+    <url-pattern>/sampleappengine/uploadHandler</url-pattern>
   </servlet-mapping>
 
 </web-app>

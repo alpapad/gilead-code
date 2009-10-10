@@ -11,6 +11,9 @@
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
+  <!-- Adapter for Google AppEngine-->
+  <inherits name='net.sf.gilead.adapter4appengine.Adapter4AppEngine'/>
+  
   <!-- Other module inherits                                      -->
 	<source path='domain'/>
 	<source path='client'/>
