@@ -3,7 +3,7 @@
  */
 package net.sf.gilead.sample.server;
 
-import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -68,14 +68,18 @@ public class UserRemoteService extends EngineRemoteService//RemoteServiceServlet
 			message1.setMessage("First message");
 			message1.setDate(new Date());
 			user.addMessage(message1);
+		
+			// save user (message are cascaded)
+			user = saveUser(user);
+			
+			message1.setMessage("Modified message");
 			
 			// create welcome messages
 			Message message2 = new Message();
 			message2.setMessage("Another message");
 			message2.setDate(new Date());
 			user.addMessage(message2);
-				
-			// save user (message are cascaded)
+			
 			saveUser(user);
 		}
 	}
@@ -132,57 +136,6 @@ public class UserRemoteService extends EngineRemoteService//RemoteServiceServlet
 			}
 		}
 	}
-
-    /**
-     * Load the user with the argument login
-     */
-    public User loadUserAndMessagesByLogin(String login)
-	{
-    	EntityManager session = null;
-		EntityTransaction transaction = null;
-		try
-		{
-		//	Get session
-		//
-			session = PersistenceContext.getEntityManagerFactory().createEntityManager();
-			transaction = session.getTransaction();
-			transaction.begin();
-	
-		//	Create query
-		//
-	    	StringBuffer hqlQuery = new StringBuffer();
-	    	hqlQuery.append("select user from net.sf.gilead.sample.domain.User user");
-	    	// NOT ALLOWED : hqlQuery.append(" left join fetch user.messageList");
-	    	hqlQuery.append(" where user.login=:login");
-	    		    	
-	    //	Fill query
-	    //
-			Query query = session.createQuery(hqlQuery.toString());
-			query.setParameter("login", login);
-			
-		//	Execute query
-		//
-			User user = (User) query.getSingleResult();
-			user.getMessageList().size(); // force message loading
-			transaction.commit();
-			
-			return user;
-		}
-		catch (RuntimeException e)
-		{
-		//	Rollback
-		//
-			transaction.rollback();
-			throw e;
-		}
-		finally
-		{
-			if (session != null)
-			{
-				session.close();
-			}
-		}
-	}
     
     /**
      * Save the argument user
@@ -200,9 +153,11 @@ public class UserRemoteService extends EngineRemoteService//RemoteServiceServlet
 			transaction = session.getTransaction();
 			transaction.begin();
 
+			
 		//	Save user
 		//
 			user = session.merge(user);
+			
 			transaction.commit();
 			
 			return user;
@@ -265,15 +220,16 @@ public class UserRemoteService extends EngineRemoteService//RemoteServiceServlet
 			
 			return result;
 		}
-		catch (RuntimeException e)
+		catch (Throwable e)
 		{
+			e.printStackTrace();
 		//	Rollback
 		//
 			if (transaction != null)
 			{
 				transaction.rollback();
 			}
-			throw e;
+			throw new RuntimeException(e);
 		}
 		finally
 		{

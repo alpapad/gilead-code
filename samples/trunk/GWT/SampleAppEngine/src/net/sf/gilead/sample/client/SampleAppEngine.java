@@ -43,6 +43,16 @@ public class SampleAppEngine implements EntryPoint {
 	private Button addMessageButton;
 	
 	/**
+	 * Modify current message button
+	 */
+	private Button modifyMessageButton;
+	
+	/**
+	 * Delete current message button
+	 */
+	private Button deleteMessageButton;
+	
+	/**
 	 * Current user login
 	 */
 	private TextBox loginTextBox;
@@ -71,11 +81,6 @@ public class SampleAppEngine implements EntryPoint {
 	 * Simple load user button
 	 */
 	private Button loadUserButton;
-	
-	/**
-	 * Load user and messages button
-	 */
-	private Button loadUserAndMessagesButton;
 	
 	/**
 	 * Save user button
@@ -109,7 +114,7 @@ public class SampleAppEngine implements EntryPoint {
 		rootPanel.add(verticalPanel, 0, 0);
 		verticalPanel.setSize("100%", "100%");
 
-		final Label gileadSampleApplicationLabel = new Label("Gilead sample application");
+		final Label gileadSampleApplicationLabel = new Label("Gilead AppEngine sample application");
 		gileadSampleApplicationLabel.setStyleName("title");
 		verticalPanel.add(gileadSampleApplicationLabel);
 
@@ -151,8 +156,7 @@ public class SampleAppEngine implements EntryPoint {
 		passwordTextBox = new TextBox();
 		grid.setWidget(3, 1, passwordTextBox);
 		passwordTextBox.setWidth("100%");
-		passwordTextBox.setTitle("This field will never get filled.");
-
+	
 		newMessageTextBox = new TextBox();
 		grid.setWidget(5, 1, newMessageTextBox);
 		newMessageTextBox.setWidth("100%");
@@ -167,19 +171,40 @@ public class SampleAppEngine implements EntryPoint {
 			}
 		});
 
-		final Label serverOnlyLabel = new Label("@ServerOnly");
-		serverOnlyLabel.setStyleName("comment");
-		grid.setWidget(3, 2, serverOnlyLabel);
-
-		final Label readOnlyLabel = new Label("@ReadOnly");
-		readOnlyLabel.setStyleName("comment");
-		grid.setWidget(0, 2, readOnlyLabel);
-
 		messagesListBox = new ListBox();
 		grid.setWidget(4, 1, messagesListBox);
 		messagesListBox.setVisibleItemCount(5);
 		messagesListBox.setWidth("100%");
-
+		
+		modifyMessageButton = new Button();
+		modifyMessageButton.setText("Modify");
+		modifyMessageButton.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event)
+			{
+				if (messagesListBox.getSelectedIndex() != -1)
+				{
+					modifyMessage(messagesListBox.getItemText(messagesListBox.getSelectedIndex()));
+				}
+			}
+		});
+		
+		deleteMessageButton = new Button();
+		deleteMessageButton.setText("Delete");
+		deleteMessageButton.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event)
+			{
+				if (messagesListBox.getSelectedIndex() != -1)
+				{
+					deleteMessage(messagesListBox.getItemText(messagesListBox.getSelectedIndex()));
+				}
+			}
+		});
+		
+		VerticalPanel buttonPanel = new VerticalPanel();
+		buttonPanel.add(modifyMessageButton);
+		buttonPanel.add(deleteMessageButton);
+		grid.setWidget(4, 2, buttonPanel);
+		
 		final HorizontalPanel horizontalPanel = new HorizontalPanel();
 		verticalPanel.add(horizontalPanel);
 		horizontalPanel.setWidth("100%");
@@ -187,22 +212,12 @@ public class SampleAppEngine implements EntryPoint {
 
 		loadUserButton = new Button();
 		horizontalPanel.add(loadUserButton);
-		loadUserButton.setText("Load user without messages");
+		loadUserButton.setText("Load user");
 		loadUserButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				loadUser();
 			}
 		});
-
-		loadUserAndMessagesButton = new Button();
-		horizontalPanel.add(loadUserAndMessagesButton);
-		loadUserAndMessagesButton.setText("Load user and messages");
-		loadUserAndMessagesButton.addClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event) {
-				loadUserWithMessages();
-			}
-		});
-		
 
 		saveUserButton = new Button();
 		horizontalPanel.add(saveUserButton);
@@ -240,28 +255,6 @@ public class SampleAppEngine implements EntryPoint {
 				updateDisplay();
 			}
 			
-		});
-	}
-	
-	/**
-	 * Load user with messages
-	 */
-	private void loadUserWithMessages()
-	{
-		UserRemote.Util.getInstance().loadUserAndMessagesByLogin("test", new AsyncCallback<User>(){
-
-			@Override
-			public void onFailure(Throwable caught)
-			{
-				Window.alert(caught.getMessage());
-			}
-
-			@Override
-			public void onSuccess(User result)
-			{
-				setUser(result);
-				updateDisplay();
-			}
 		});
 	}
 	
@@ -313,7 +306,6 @@ public class SampleAppEngine implements EntryPoint {
 	//	Create new message
 	//
 		Message message = new Message();
-		message.setAuthor(user);
 		message.setDate(new Date());
 		message.setMessage(newMessageTextBox.getText());
 		user.addMessage(message);
@@ -322,6 +314,42 @@ public class SampleAppEngine implements EntryPoint {
 		
 	//	Update display
 	//
+		updateDisplay();
+	}
+	
+	private void modifyMessage(String itemText)
+	{
+	//	Search message
+	//
+		for (Message message : user.getMessageList())
+		{
+			if (itemText.equals(message.getMessage()))
+			{
+			//	Found !
+			//
+				message.setMessage(itemText + "!");
+				break;
+			}
+		}
+		
+		updateDisplay();
+	}
+	
+	private void deleteMessage(String itemText)
+	{
+	//	Search message
+	//
+		for (Message message : user.getMessageList())
+		{
+			if (itemText.equals(message.getMessage()))
+			{
+			//	Found !
+			//
+				user.removeMessage(message);
+				break;
+			}
+		}
+		
 		updateDisplay();
 	}
 	

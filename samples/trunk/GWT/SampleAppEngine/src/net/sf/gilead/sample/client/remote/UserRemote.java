@@ -37,11 +37,6 @@ public interface UserRemote extends RemoteService
 	public User loadUserByLogin(String login);
 	
 	/**
-	 * load the user and associated messages from its login
-	 */
-	public User loadUserAndMessagesByLogin(String login);
-	
-	/**
      * Save the argument user
      * @param user the user to save or create
      * @return the created user

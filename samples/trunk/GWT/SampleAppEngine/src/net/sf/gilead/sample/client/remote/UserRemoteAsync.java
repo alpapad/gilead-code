@@ -12,15 +12,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface UserRemoteAsync
 {
 	/**
-	 * load the user (without message from its login)
+	 * load the user and messages from its login
 	 */
 	public void loadUserByLogin(String login, AsyncCallback<User> callback);
 	
-	/**
-	 * load the user and associated messages from its login
-	 */
-	public void loadUserAndMessagesByLogin(String login, AsyncCallback<User> callback);
-	
+
 	/**
      * Save the argument user
      * @param user the user to save or create

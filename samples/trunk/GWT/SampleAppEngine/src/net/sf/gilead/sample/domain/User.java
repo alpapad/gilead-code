@@ -52,7 +52,7 @@ public class User implements Serializable
 	@Column(name="PASSWORD", length=45)
 	private String password;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="author")
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Message> messageList;
 
 	// Properties
@@ -161,5 +161,10 @@ public class User implements Serializable
 		// ID comparison
 		User other = (User) obj;
 		return (id == other.getId());
+	}
+	
+	public String toString()
+	{
+		return this.login + "[" + this.id + "]";
 	}
 }

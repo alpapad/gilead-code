@@ -3,6 +3,7 @@ package net.sf.gilead.sample.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -47,7 +48,7 @@ public class Message implements Serializable
 	@Column(name="DATE", nullable=false)
 	private Date date;
     
-	@ManyToOne(fetch=FetchType.LAZY, targetEntity=User.class)
+	@ManyToOne
 	private User author;
     
     // Properties
@@ -131,5 +132,10 @@ public class Message implements Serializable
 		// ID comparison
 		Message other = (Message) obj;
 		return (id == other.getId());
+	}
+	
+	public String toString()
+	{
+		return this.message + "[" + this.id + "]";
 	}
 }
