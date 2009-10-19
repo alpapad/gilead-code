@@ -12,6 +12,7 @@ import net.sf.gilead.test.domain.misc.PersistentException;
 import net.sf.gilead.test.domain.misc.Photo;
 import net.sf.gilead.test.domain.misc.Preference;
 import net.sf.gilead.test.domain.misc.Project;
+import net.sf.gilead.test.domain.misc.UserEntity;
 import net.sf.gilead.test.domain.misc.Utente;
 
 import org.hibernate.Query;
@@ -129,6 +130,30 @@ public class NonRegressionTest extends TestCase
 	//
 		client = (Client) beanManager.merge(client);
 		assertEquals(1, client.getProjects().size());
+	}
+	
+	/**
+	 * Test clone on class implementing interface with getter only
+	 */
+	public void testInterfaceWithGetterOnly() throws FileNotFoundException
+	{
+	//	Init bean manager
+	//
+		PersistentBeanManager beanManager = TestHelper.initStatefulBeanManager();
+		
+	//	Create test user
+	//
+		UserEntity user = new UserEntity();
+		user.setId(1);
+		
+	//	Clone user
+	//
+		UserEntity cloneUser = (UserEntity) beanManager.clone(user);
+
+	//	Post test verification
+	//
+		assertNotNull(cloneUser);
+		assertEquals(user.getId(), cloneUser.getId());
 	}
 	
 	//-------------------------------------------------------------------------

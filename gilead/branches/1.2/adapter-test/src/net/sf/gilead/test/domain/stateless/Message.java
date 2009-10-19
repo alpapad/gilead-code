@@ -91,8 +91,8 @@ public class Message extends LightEntity implements IMessage
 	/**
 	 * @param author the author to set
 	 */
-	public void setAuthor(IUser author) {
-		this.author = (IUser) author;
+	public void setAuthor(User author) {
+		this.author = author;
 	}
 	
 	/**

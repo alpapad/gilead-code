@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Stack;
 
 import net.sf.gilead.core.IPersistenceUtil;
-import net.sf.gilead.core.beanlib.merge.BeanlibThreadLocal;
+import net.sf.gilead.core.beanlib.BeanlibThreadLocal;
 import net.sf.gilead.exception.ComponentTypeException;
 import net.sf.gilead.exception.TransientObjectException;
 

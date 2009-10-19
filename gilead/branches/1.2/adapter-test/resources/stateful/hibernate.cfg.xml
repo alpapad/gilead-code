@@ -37,5 +37,6 @@
         <mapping resource="stateful/Message.hbm.xml"/>
 		<mapping resource="stateful/Group.hbm.xml"/>
 		<mapping resource="stateful/Country.hbm.xml"/>
+		<mapping resource="stateful/UserEntity.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

@@ -620,6 +620,66 @@ public abstract class CloneTest extends TestCase
 		messageDAO.saveMessage(mergeMessage);
 	}
 	
+	/**
+	 * Test creation of a first message on client side
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 */
+	public void testCreateMessageListOnClientSide() throws InstantiationException, IllegalAccessException
+	{
+	//	Get User DAO
+	//
+		IUserDAO userDAO = DAOFactory.getUserDAO();
+		assertNotNull(userDAO);
+			
+	//	Create user without messages
+	//
+		IUser user = TestHelper.createUser(TestHelper.MUTE_LOGIN, 0);
+		assertNotNull(user);
+		assertNull(user.getMessageList());
+		
+		// save user
+		userDAO.saveUser(user);
+		assertNotNull(user.getId());
+		assertNull(user.getMessageList());
+		
+	//	Clone user
+	//
+		IUser cloneUser = (IUser) _beanManager.clone(user);
+		
+	//	Clone verification
+	//
+		assertNotNull(cloneUser);
+		assertEquals(_cloneUserClass, cloneUser.getClass());
+
+		assertNull(cloneUser.getMessageList());
+		
+	//	Create new message
+	//
+		IMessage message = createNewCloneMessage(cloneUser);
+		cloneUser.addMessage(message);
+		
+		assertNotNull(cloneUser.getMessageList());
+		assertEquals(1, cloneUser.getMessageList().size());
+		
+	//	Merge user
+	//
+		IUser mergeUser = (IUser) _beanManager.merge(cloneUser);
+		
+	//	Clone verification
+	//
+		assertNotNull(mergeUser);
+		assertEquals(_domainUserClass, mergeUser.getClass());
+		
+		assertNotNull(mergeUser.getMessageList());
+		
+		// message verification
+		for (Object subMessage : mergeUser.getMessageList())
+		{
+			assertEquals(_domainMessageClass, subMessage.getClass());
+		}
+	}
+	
 	
 	/**
 	 * Test map cloning
@@ -854,7 +914,6 @@ public abstract class CloneTest extends TestCase
 		assertEquals(configuration.getName(), mergeConfiguration.getName());
 	}
 	
-
 	/**
 	 * Test change property on client side
 	 */
@@ -1303,6 +1362,42 @@ public abstract class CloneTest extends TestCase
 	}
 	
 	/**
+	 * Test delete collection on client side
+	 */
+	public void testNullifyPropertyAfterClone() throws Exception
+	{  
+	//	Get MessageDAO
+	//
+		IMessageDAO messageDAO = DAOFactory.getMessageDAO();
+		assertNotNull(messageDAO);
+		
+	//	Load message
+	//
+		IMessage message = messageDAO.loadDetailedMessage(TestHelper.getExistingMessageId());
+		assertNotNull(message);
+		assertNotNull(message.getAuthor());
+		
+	//	Clone message
+	//
+		IMessage cloneMessage = (IMessage) _beanManager.clone(message); 
+		 
+		// nullify author
+		try
+		{
+			cloneMessage.getClass().getMethod("setAuthor", _cloneUserClass).invoke(cloneMessage, (IUser)null);
+		}
+		catch (NoSuchMethodException ex)
+		{
+			cloneMessage.getClass().getMethod("setAuthor", _domainUserClass).invoke(cloneMessage, (IUser)null);
+		}
+		 
+	//	Merge message
+	//
+		IMessage mergeMessage = (IMessage) _beanManager.merge(cloneMessage); 
+		assertNotNull(mergeMessage);
+	}
+	
+	/**
 	 * Test new collection on client side
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
@@ -1592,6 +1687,42 @@ public abstract class CloneTest extends TestCase
 		assertNotNull(mergeUser.getMessageList());
 		assertEquals(cloneUser.getMessageList().size(), mergeUser.getMessageList().size());
 	
+	}
+	
+	/**
+	 * Test merge a new entity object graph (created on client side)
+	 */
+	@SuppressWarnings("unchecked")
+	public void testMergeTwiceOnNewEntities() throws Exception
+	{
+	//	Create clone user
+	//
+		IUser cloneUser = createNewCloneUser();
+		
+	//	Create associated messages
+	//
+		IMessage message = createNewCloneMessage(cloneUser);
+		cloneUser.addMessage(message);
+		assertEquals(message.getAuthor(), cloneUser);
+		
+	//	Create a list of all these items
+	//
+		List<Object> cloneList = new ArrayList<Object>(2);
+		cloneList.add(cloneUser);
+		cloneList.add(message);
+		
+	//	Merge list
+	//
+		List<Object> mergeList = (List<Object>) _beanManager.merge(cloneList);
+		
+	//	Test merged object
+	//
+		assertNotNull(mergeList);
+		IUser mergeUser = (IUser) mergeList.get(0);
+		IMessage mergeMessage = (IMessage) mergeList.get(1);
+		assertNotNull(mergeUser);
+		assertNotNull(mergeMessage);
+		assertTrue(mergeUser == mergeMessage.getAuthor());
 	}
 	
 	/**

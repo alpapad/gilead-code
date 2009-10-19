@@ -13,6 +13,7 @@ import net.sf.beanlib.hibernate3.Hibernate3MapReplicator;
 import net.sf.beanlib.spi.BeanTransformerSpi;
 import net.sf.beanlib.spi.replicator.MapReplicatorSpi;
 import net.sf.gilead.core.IPersistenceUtil;
+import net.sf.gilead.core.beanlib.BeanlibThreadLocal;
 
 /**
  * Encapsulation of the collection replicator

@@ -396,15 +396,22 @@ public class PersistentBeanManager
 	{
 	//	Clone each element of the map
 	//
-		Map<Object,Object> cloneMap = createNewMap(hibernatePojoMap);
-		
-		for (Map.Entry<?, ?> entry : hibernatePojoMap.entrySet())
+		try
 		{
-			cloneMap.put(clone(entry.getKey(), assignable), 
-						 clone(entry.getValue(), assignable));
-		}
+			Map<Object,Object> cloneMap = createNewMap(hibernatePojoMap);
 		
-		return cloneMap;
+			for (Map.Entry<?, ?> entry : hibernatePojoMap.entrySet())
+			{
+				cloneMap.put(clone(entry.getKey(), assignable), 
+							 clone(entry.getValue(), assignable));
+			}
+			
+			return cloneMap;
+		}
+		finally
+		{
+			_lazyKiller.reset();
+		}
 	}
 	
 	/**
@@ -414,13 +421,19 @@ public class PersistentBeanManager
 	{
 	//	Clone each element of the collection
 	//
-		Collection<Object> clonePojoList = createNewCollection(hibernatePojoList);
-		for (Object hibernatePojo : hibernatePojoList)
+		try
 		{
-			clonePojoList.add(clone(hibernatePojo, assignable));
+			Collection<Object> clonePojoList = createNewCollection(hibernatePojoList);
+			for (Object hibernatePojo : hibernatePojoList)
+			{
+				clonePojoList.add(clone(hibernatePojo, assignable));
+			}
+			return clonePojoList;
 		}
-		
-		return clonePojoList;
+		finally
+		{
+			_lazyKiller.reset();
+		}
 	}
 	
 	/**
@@ -547,25 +560,32 @@ public class PersistentBeanManager
 	 */
 	protected Collection<?> mergeCollection(Collection<?> clonePojoList, boolean assignable)
 	{
-		Collection<Object> hibernatePojoList = createNewCollection(clonePojoList);
-		
-	//	Retrieve every hibernate from pojo list
-	//
-		for (Object clonePojo : clonePojoList)
+		try
 		{
-			try
+			Collection<Object> hibernatePojoList = createNewCollection(clonePojoList);
+			
+		//	Retrieve every hibernate from pojo list
+		//
+			for (Object clonePojo : clonePojoList)
 			{
-				hibernatePojoList.add(merge(clonePojo, assignable));
+				try
+				{
+					hibernatePojoList.add(merge(clonePojo, assignable));
+				}
+				catch(TransientObjectException e)
+				{
+				//	Keep new pojo (probably created from GWT)
+				//
+					hibernatePojoList.add(clonePojo);
+				}
 			}
-			catch(TransientObjectException e)
-			{
-			//	Keep new pojo (probably created from GWT)
-			//
-				hibernatePojoList.add(clonePojo);
-			}
+			
+			return hibernatePojoList;
 		}
-		
-		return hibernatePojoList;
+		finally
+		{
+			_lazyKiller.reset();
+		}
 	}
 	
 	/**
@@ -575,34 +595,41 @@ public class PersistentBeanManager
 	 */
 	protected Map<?,?> mergeMap(Map<?,?> cloneMap, boolean assignable)
 	{
-		Map<Object, Object> hibernateMap = new HashMap<Object, Object>();
-		
-	//	Iterate over map
-	//
-		for (Map.Entry<?,?> entry : cloneMap.entrySet())
+		try
 		{
-			// Merge key
-			Object key = entry.getKey();
-			try
-			{
-				key = merge(key, assignable);
-			}
-			catch (TransientObjectException ex)
-			{ /* keep key untouched */ }
+			Map<Object, Object> hibernateMap = new HashMap<Object, Object>();
 			
-			// Merge value
-			Object value = entry.getValue();
-			try
+		//	Iterate over map
+		//
+			for (Map.Entry<?,?> entry : cloneMap.entrySet())
 			{
-				value = merge(value, assignable);
+				// Merge key
+				Object key = entry.getKey();
+				try
+				{
+					key = merge(key, assignable);
+				}
+				catch (TransientObjectException ex)
+				{ /* keep key untouched */ }
+				
+				// Merge value
+				Object value = entry.getValue();
+				try
+				{
+					value = merge(value, assignable);
+				}
+				catch (TransientObjectException ex)
+				{ /* keep value untouched */ }
+				
+				hibernateMap.put(key, value);
 			}
-			catch (TransientObjectException ex)
-			{ /* keep value untouched */ }
 			
-			hibernateMap.put(key, value);
+			return hibernateMap;
 		}
-		
-		return hibernateMap;
+		finally
+		{
+			_lazyKiller.reset();
+		}
 	}
 	
 	

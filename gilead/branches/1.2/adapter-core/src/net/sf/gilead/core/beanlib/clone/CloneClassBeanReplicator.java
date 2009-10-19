@@ -20,8 +20,8 @@ import net.sf.beanlib.hibernate3.Hibernate3JavaBeanReplicator;
 import net.sf.beanlib.spi.BeanTransformerSpi;
 import net.sf.beanlib.spi.replicator.BeanReplicatorSpi;
 import net.sf.gilead.core.IPersistenceUtil;
+import net.sf.gilead.core.beanlib.BeanlibThreadLocal;
 import net.sf.gilead.core.beanlib.IClassMapper;
-import net.sf.gilead.core.beanlib.merge.BeanlibThreadLocal;
 import net.sf.gilead.core.beanlib.merge.MergeClassBeanReplicator;
 
 import org.apache.commons.logging.Log;

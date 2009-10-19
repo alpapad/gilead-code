@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.sf.gilead.core.beanlib.merge;
+package net.sf.gilead.core.beanlib;
 
 import java.io.Serializable;
 import java.util.Map;

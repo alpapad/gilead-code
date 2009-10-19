@@ -5,6 +5,7 @@ package net.sf.gilead.core;
 
 import net.sf.gilead.test.domain.interfaces.IMessage;
 import net.sf.gilead.test.domain.interfaces.IUser;
+import net.sf.gilead.test.domain.stateless.User;
 
 /**
  * Clone test for stateless mode
@@ -44,7 +45,7 @@ public class StatelessCloneTest extends CloneTest
 	protected void changeAuthorForClone(IMessage message, IUser user)
 	{
 		((net.sf.gilead.test.domain.stateless.Message)message).
-				setAuthor((IUser)user);
+				setAuthor((User)user);
 	}
 	
 	/**
@@ -53,6 +54,6 @@ public class StatelessCloneTest extends CloneTest
 	protected void changeAuthorForDomain(IMessage message, IUser user)
 	{
 		((net.sf.gilead.test.domain.stateless.Message)message).
-				setAuthor((IUser)user);
+				setAuthor((User)user);
 	}
 }

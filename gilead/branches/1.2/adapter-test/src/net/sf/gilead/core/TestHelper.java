@@ -52,6 +52,11 @@ public class TestHelper
 	public final static String VOLUMETRY_LOGIN = "big";
 	
 	/**
+	 * The no message user login
+	 */
+	public final static String MUTE_LOGIN = "mute";
+	
+	/**
 	 * The 'test' group
 	 */
 	public final static String TEST_GROUP = "test";
@@ -141,6 +146,20 @@ public class TestHelper
 		computeKeywords(junitMessage);
 		junitUser.addMessage(junitMessage);
 		
+		// create message
+		junitMessage = createMessage();
+		junitMessage.setMessage("JUnit second message");
+		junitMessage.setDate(new Date());
+		computeKeywords(junitMessage);
+		junitUser.addMessage(junitMessage);
+		
+		// create message
+		junitMessage = createMessage();
+		junitMessage.setMessage("JUnit third message");
+		junitMessage.setDate(new Date());
+		computeKeywords(junitMessage);
+		junitUser.addMessage(junitMessage);
+		
 		// group
 		junitUser.addToGroup(testGroup);
 		
@@ -176,6 +195,7 @@ public class TestHelper
 		
 		// save user (message and group are cascaded)
 		DAOFactory.getUserDAO().saveUser(employee);
+
 	}
 	
 	/**
@@ -293,6 +313,37 @@ public class TestHelper
 				message.addKeyword(token, token.length());
 			}
 		}
+	}
+	
+	public static IUser createUser(String login, int nbMsg)
+	{
+	//	Create JUnit user
+	//
+		IUser user = createUser();
+		user.setLogin(login);
+		user.setPassword(login);
+		user.setFirstName(login);
+		user.setLastName(login);
+		
+		// address
+		IAddress address = createAddress();
+		address.setStreet("Main street");
+		address.setCity("Castle Rock");
+		address.setCountry(createCountry());
+		address.getCountry().setName("United States of America");
+		user.setAddress(address);
+		
+		// create messages
+		for (int index = 0; index < nbMsg ; index ++)
+		{
+			IMessage message = createMessage();
+			message.setMessage("message " + (index+1));
+			message.setDate(new Date());
+			computeKeywords(message);
+			user.addMessage(message);
+		}
+
+		return user;
 	}
 	
 	//-------------------------------------------------------------------------

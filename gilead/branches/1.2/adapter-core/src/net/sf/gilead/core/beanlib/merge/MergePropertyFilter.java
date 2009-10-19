@@ -24,6 +24,7 @@ import java.util.Map;
 import net.sf.beanlib.spi.DetailedPropertyFilter;
 import net.sf.gilead.annotations.AnnotationsHelper;
 import net.sf.gilead.core.IPersistenceUtil;
+import net.sf.gilead.core.beanlib.BeanlibThreadLocal;
 import net.sf.gilead.core.beanlib.CloneAndMergeConstants;
 import net.sf.gilead.core.store.IProxyStore;
 import net.sf.gilead.pojo.base.ILightEntity;

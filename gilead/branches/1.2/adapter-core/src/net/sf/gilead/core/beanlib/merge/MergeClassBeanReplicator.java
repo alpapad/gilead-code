@@ -24,6 +24,7 @@ import net.sf.beanlib.spi.BeanTransformerSpi;
 import net.sf.beanlib.spi.replicator.BeanReplicatorSpi;
 import net.sf.gilead.annotations.AnnotationsHelper;
 import net.sf.gilead.core.IPersistenceUtil;
+import net.sf.gilead.core.beanlib.BeanlibThreadLocal;
 import net.sf.gilead.core.beanlib.IClassMapper;
 import net.sf.gilead.core.store.IProxyStore;
 import net.sf.gilead.exception.NotPersistentObjectException;
