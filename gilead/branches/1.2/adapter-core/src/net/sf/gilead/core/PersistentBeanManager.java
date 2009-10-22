@@ -714,7 +714,17 @@ public class PersistentBeanManager
 	{
 		if (pojoCollection instanceof List)
 		{
-			return new ArrayList<Object>(pojoCollection.size());
+			try
+			{
+				return new ArrayList<Object>(pojoCollection.size());
+			}
+			catch(Exception ex)
+			{
+			//	No access to size ? lazy initialization exception ?
+			//
+				_log.debug("Error creating array list with size " + ex);
+				return new ArrayList<Object>();
+			}
 		}
 		else if (pojoCollection instanceof Set)
 		{
@@ -724,7 +734,17 @@ public class PersistentBeanManager
 			}
 			else
 			{
-				return new HashSet<Object>(pojoCollection.size());
+				try
+				{
+					return new HashSet<Object>(pojoCollection.size());
+				}
+				catch(Exception ex)
+				{
+				//	No access to size ? lazy initialization exception ?
+				//
+					_log.debug("Error creating hash set with size " + ex);
+					return new HashSet<Object>();
+				}
 			}
 		}
 		else
