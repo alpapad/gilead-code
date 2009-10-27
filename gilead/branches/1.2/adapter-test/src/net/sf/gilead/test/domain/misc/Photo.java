@@ -1,5 +1,7 @@
 package net.sf.gilead.test.domain.misc;
 
+import java.util.Arrays;
+
 import net.sf.gilead.pojo.java5.LightEntity;
 
 

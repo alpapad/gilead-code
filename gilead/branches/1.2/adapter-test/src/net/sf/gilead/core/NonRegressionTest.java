@@ -339,6 +339,7 @@ public class NonRegressionTest extends TestCase
 		}
 	}
     
+    
     /**
 	 * Create a test entity
 	 */

@@ -23,7 +23,7 @@ public class Page extends LightEntity
 	private String name;
 	
 	private List<Photo> photoList;
-
+	
 	// Properties
 	public Integer getId() {
 		return this.id;
@@ -65,7 +65,7 @@ public class Page extends LightEntity
 
 	public void addPhoto(Photo photo)
 	{
-		((Photo)photo).setPage(this);
+		photo.setPage(this);
 		
 		// Create message list if needed
 		if (photoList == null)

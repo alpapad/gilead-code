@@ -20,6 +20,7 @@ import net.sf.gilead.test.domain.stateless.Message;
 import net.sf.gilead.test.domain.stateless.User;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.collection.PersistentBag;
 
 /**
  * Hibernate Helper test case
@@ -186,4 +187,12 @@ public class HibernateUtilTest extends TestCase
 	//
 		assertEquals(textElement.getUidPk(), HibernateUtil.getInstance().getId(textElement));
 	} */
+	
+	/**
+	 * Test persistent bag collection detection.
+	 */
+	public void testPersistentBag()
+	{
+		assertTrue(HibernateUtil.getInstance().isPersistentCollection(PersistentBag.class));
+	}
 }
