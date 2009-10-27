@@ -865,6 +865,10 @@ public class PersistentBeanManager
 				//
 					propertyClass  = ((IndexedPropertyDescriptor) descriptor).getPropertyType();
 				}
+				else if (propertyClass.isArray())
+				{
+					propertyClass = propertyClass.getComponentType();
+				}
 				if (propertyClass == null)
 				{
 				//	Can do nothing with this...
