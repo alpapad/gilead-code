@@ -21,6 +21,7 @@ import java.beans.IndexedPropertyDescriptor;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -940,6 +941,19 @@ public class PersistentBeanManager
 					{
 						if ((holdPersistentObject(value.getKey(), alreadyChecked) == true) ||
 							(holdPersistentObject(value.getValue(), alreadyChecked) == true))
+						{
+							return true;
+						}
+					}
+				}
+				else if (propertyClass.isArray())
+				{
+				//	Check array elements
+				//
+					Object[] propertyValues = (Object[]) propertyValue;
+					for (int property = 0; property < propertyValues.length ; property++)
+					{
+						if (holdPersistentObject(propertyValues[property]) == true)
 						{
 							return true;
 						}
