@@ -10,7 +10,7 @@ import net.sf.gilead.annotations.ServerOnly;
 /**
  * User Domain class for stateless server
  */
-public class User extends LightEntity  implements Serializable
+public class User extends LightEntity implements Serializable
 {
 	/**
 	 * Serialisation ID

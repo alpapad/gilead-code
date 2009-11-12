@@ -25,9 +25,9 @@ public interface IUserService {
 	//
 	//-------------------------------------------------------------------------
 	/**
-	 * Load the complete user and associated messages
+	 * Save the user
 	 */
-	public User loadCompleteUser(User user);
+	public User saveUser(User user);
 	
 	/**
 	 * @return the list of all users

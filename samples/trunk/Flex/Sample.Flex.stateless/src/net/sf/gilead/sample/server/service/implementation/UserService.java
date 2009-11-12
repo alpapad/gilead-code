@@ -47,11 +47,12 @@ public class UserService implements IUserService
 	//
 	//-------------------------------------------------------------------------
 	/**
-	 * Load the complete user and associated messages
+	 * Save the user
 	 */
-	public User loadCompleteUser(User user)
+	public User saveUser(User user)
 	{
-		return userDAO.searchUserAndMessagesByLogin(user.getLogin());
+		userDAO.saveUser(user);
+		return user;
 	}
 
 	/*

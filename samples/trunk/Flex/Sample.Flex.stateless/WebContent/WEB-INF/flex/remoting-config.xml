@@ -51,5 +51,13 @@
 		    <scope>session</scope>
 		</properties>
 	</destination>
+	
+	<destination id="lazyLoadingService">
+    	<adapter ref="persistent-adapter" />
+		<properties>
+			<source>net.sf.gilead.blazeds.remoting.LoadingService</source>
+		    <scope>session</scope>
+		</properties>
+	</destination>
 
 </service>

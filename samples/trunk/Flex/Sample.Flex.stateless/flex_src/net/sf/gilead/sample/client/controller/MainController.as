@@ -3,7 +3,6 @@ package net.sf.gilead.sample.client.controller
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
 	import mx.core.Application;
-	import mx.events.PropertyChangeEvent;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.RemoteObject;
@@ -25,6 +24,11 @@ package net.sf.gilead.sample.client.controller
 		 */
 		private var _userService:RemoteObject;
 		
+		/**
+		 * The remote lazy loading service
+		 */
+		private var _lazyLoadingService:RemoteObject;
+		
 		//----
 		// Constructor
 		//----
@@ -34,6 +38,7 @@ package net.sf.gilead.sample.client.controller
 		public function MainController()
 		{
 			getUserRemoteObject();
+			getLazyLoadingRemoteObject();
 		}
 		
 		//----
@@ -60,15 +65,23 @@ package net.sf.gilead.sample.client.controller
 			ApplicationModel.getInstance().selectedUser = user;
 			ApplicationModel.getInstance().selectedMessage = null;
 			if ((user != null) &&
-			    (user.messageList == null))
+			    (user.isInitialized("messageList") == false))
 		 	{
-				_userService.loadUserDetails(user);
+				_lazyLoadingService.loadSetAssociation(user, "messageList");
 			}
 			
 		//	Show user details
 		//
 			Application.application.mainPanel.userDetails.visible = true;
 			Application.application.mainPanel.messageDetails.visible = false;
+		}
+		
+		/**
+		 * Save the current user
+		 */
+		public function saveUser(user:User):void
+		{
+			_userService.saveUser(user);
 		}
 		
 		/**
@@ -192,22 +205,47 @@ package net.sf.gilead.sample.client.controller
 		/**
 		 * Callback method for successful RPC call
 		 */
-		public function onUserDetails(event:ResultEvent):void
+		public function onSavedUser(event:ResultEvent):void
 		{
 		//	Replace selected user with detailed user
 		//
-			ApplicationModel.getInstance().currentOperation = "Received user details";
+			ApplicationModel.getInstance().currentOperation = "User saved";
 			
 			var oldSelectedUser : User = ApplicationModel.getInstance().selectedUser;
 			var index:int = ApplicationModel.getInstance().userList.getItemIndex(oldSelectedUser);
 			
 			var updatedSelectedUser:User = event.result as User;
 			ApplicationModel.getInstance().userList.setItemAt(updatedSelectedUser, index);
+			Application.application.mainPanel.userTree.dataProvider = ApplicationModel.getInstance().userList;
+			
 			ApplicationModel.getInstance().selectedUser = updatedSelectedUser;
 			
-			// Open tree node
-			Application.application.mainPanel.userTree.expandItem(updatedSelectedUser, true, true);
+		//  Close tree node
+		//
+		//	Application.application.mainPanel.userTree.expandItem(updatedSelectedUser, false);
 		}
+		
+		/**
+		 * Callback method for successful RPC call
+		 */
+		public function onLoadedMessages(event:ResultEvent):void
+		{
+		//	Replace selected user with detailed user
+		//
+			ApplicationModel.getInstance().currentOperation = "Received user messages";
+			
+			var selectedUser : User = ApplicationModel.getInstance().selectedUser;
+			var messages:ArrayCollection = event.result as ArrayCollection;
+			
+			selectedUser.messageList = messages;
+			selectedUser.setInitialized("messageList");
+			
+		// 	Open tree node
+		//
+			Application.application.mainPanel.userTree.expandItem(selectedUser, true, true);
+		}
+		
+		
 
 		/**
 		 * Error handler for failed server calls
@@ -233,7 +271,21 @@ package net.sf.gilead.sample.client.controller
    		//
    			_userService.addEventListener("fault", onError);
       		_userService.getUserList.addEventListener("result",onUserList);
-      		_userService.loadUserDetails.addEventListener("result",onUserDetails);      
+      		_userService.saveUser.addEventListener("result",onSavedUser);      
+		}
+		
+		/**
+		 * Create Lazy Loading Remote Object
+		 */
+		protected function getLazyLoadingRemoteObject () : void
+		{
+			_lazyLoadingService = new RemoteObject();
+			_lazyLoadingService.destination = "lazyLoadingService";
+			
+		//	Event listening
+		//
+			_lazyLoadingService.addEventListener("fault", onError);
+			_lazyLoadingService.loadSetAssociation.addEventListener("result",onLoadedMessages);
 		}
 	}
 }

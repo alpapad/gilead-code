@@ -14,7 +14,7 @@
 	</ns1:LoginPanel>
 	<ns1:MainPanel id="mainPanel" visible="false" height="600" left="0" right="0" top="100">
 	</ns1:MainPanel>
-	<mx:Text text="Adapter4BlazeDS Sample application" horizontalCenter="0" top="10" fontSize="20" fontFamily="Verdana" textAlign="center" color="#0030FF"/>
+	<mx:Text text="Gilead4BlazeDS Sample application" horizontalCenter="0" top="10" fontSize="20" fontFamily="Verdana" textAlign="center" color="#0030FF"/>
 	<mx:Text text="{ApplicationModel.getInstance().currentOperation}" id="info" textAlign="center" width="354" horizontalCenter="0" top="49"/>
 	<ns1:ControlBar x="23" y="0">
 	</ns1:ControlBar>

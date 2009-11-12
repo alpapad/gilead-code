@@ -75,12 +75,10 @@ public class UserRemoteService
 	}
 	
 	/**
-	 * Return the complete user 
+	 * Save the complete user 
 	 */
-	public User loadUserDetails(User user)
+	public User saveUser(User user)
 	{
-	//	Just load the user list
-	//
-		return userService.loadCompleteUser(user);
+		return userService.saveUser(user);
 	}
 }

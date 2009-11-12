@@ -156,7 +156,7 @@ package net.sf.gilead.sample.client.domain
 		/**
 		 * String conversion
 		 */
-		public override function toString():String
+		public function toString():String
 		{
 			return firstName + " " + lastName;
 		}

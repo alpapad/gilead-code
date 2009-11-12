@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexProperties flexServerType="8" flexWarLocation="C:/temp/blazeds.war" serverContextRoot="/Sample.Flex.stateless" serverRoot="C:/eclipse/workspace/hibernate4gwt/samples/trunk/Flex/Sample.Flex.stateless/WebContent" serverRootURL="http://localhost:8400" toolCompile="true" useServerFlexSDK="false" version="1"/>
+<flexProperties enableServiceManager="false" flexServerFeatures="4" flexServerType="2" flexWarLocation="C:/temp/blazeds.war" serverContextRoot="/Sample.Flex.stateless" serverRoot="D:/OpenSource/gilead/samples/trunk/Flex/Sample.Flex.stateless/WebContent" serverRootURL="http://localhost:8080/Sample.Flex.stateless" toolCompile="true" useServerFlexSDK="false" version="1"/>
