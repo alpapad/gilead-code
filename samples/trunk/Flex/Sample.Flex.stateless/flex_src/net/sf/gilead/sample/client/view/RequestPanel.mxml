@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="300" height="60">
+	<mx:Script>
+		<![CDATA[
+			import net.sf.gilead.sample.client.controller.MainController;
+			import net.sf.gilead.sample.client.domain.ApplicationModel;
+			
+			/**
+			 * The main controller
+			 */
+			protected var mainController:MainController = new MainController();
+			
+			/**
+			 * Execute count request
+			 */
+			private function countMessages():void
+			{
+				mainController.countMessages();
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:Text x="10" y="10" text="Remote HQL request execution" fontWeight="bold" fontStyle="normal" textDecoration="none" textAlign="center"/>
+	<mx:Text x="10" y="30" text="select count(*) from Message : {ApplicationModel.getInstance().messageCount}" />
+	<mx:Button x="218" y="28" label="Execute" id="requestButton" click="countMessages();"/>
+	
+</mx:Canvas>

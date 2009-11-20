@@ -41,6 +41,11 @@ package net.sf.gilead.sample.client.domain
 		 */
 		private var _userList:ArrayCollection;
 		
+		/**
+		 * The total message count
+		 */
+		private var _messageCount:int;
+		
 		//---- 
 		// Properties
 		//----
@@ -124,6 +129,22 @@ package net.sf.gilead.sample.client.domain
 		public function set selectedMessage(o:Message):void {
 			_selectedMessage = o;
 		}
+		
+		/**
+		 * Getter for property _messageCount
+		 */
+		public function get messageCount():int
+		{
+			return _messageCount;
+		}
+		
+		/**
+		 * Setter for property _messageCount
+		 */
+		public function set messageCount(value:int):void
+		{
+			_messageCount = value;
+		}
 
 
 		/**
@@ -142,6 +163,7 @@ package net.sf.gilead.sample.client.domain
 			_selectedMessage = null;
 			_selectedUser = null;
 			_userList = null;
+			_messageCount = 0;
 		}
 
 	}

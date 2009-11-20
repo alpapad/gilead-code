@@ -29,6 +29,11 @@ package net.sf.gilead.sample.client.controller
 		 */
 		private var _lazyLoadingService:RemoteObject;
 		
+		/**
+		 * The remote HQL request service
+		 */
+		private var _requestService:RemoteObject;
+		
 		//----
 		// Constructor
 		//----
@@ -39,6 +44,7 @@ package net.sf.gilead.sample.client.controller
 		{
 			getUserRemoteObject();
 			getLazyLoadingRemoteObject();
+			getRequestRemoteObject();
 		}
 		
 		//----
@@ -187,6 +193,15 @@ package net.sf.gilead.sample.client.controller
 		//
 			ApplicationModel.getInstance().currentOperation = "Unknown author ("+ message.author +") for message " + message;
 		}
+		
+		/**
+		 * Execute the count request on server
+		 */
+		public function countMessages():void
+		{
+			ApplicationModel.getInstance().currentOperation = "Executing count request...";
+			_requestService.executeRequest("select count(*) from Message", null);
+		}
 
 		//----
 		// Event listeners
@@ -245,6 +260,19 @@ package net.sf.gilead.sample.client.controller
 			Application.application.mainPanel.userTree.expandItem(selectedUser, true, true);
 		}
 		
+		/**
+		 * Callback method for successful RPC call
+		 */
+		public function onExecutedRequest(event:ResultEvent):void
+		{
+		//	Replace selected user with detailed user
+		//
+			ApplicationModel.getInstance().currentOperation = "Received request result " + event.result;
+			
+			// Update message count field
+			var counts:ArrayCollection = event.result as ArrayCollection;
+			ApplicationModel.getInstance().messageCount = counts[0];
+		}
 		
 
 		/**
@@ -286,6 +314,20 @@ package net.sf.gilead.sample.client.controller
 		//
 			_lazyLoadingService.addEventListener("fault", onError);
 			_lazyLoadingService.loadSetAssociation.addEventListener("result",onLoadedMessages);
+		}
+		
+		/**
+		 * Create Request Remote Object
+		 */
+		protected function getRequestRemoteObject () : void
+		{
+			_requestService = new RemoteObject();
+			_requestService.destination = "requestService";
+			
+		//	Event listening
+		//
+			_requestService.addEventListener("fault", onError);
+			_requestService.executeRequest.addEventListener("result",onExecutedRequest);
 		}
 	}
 }

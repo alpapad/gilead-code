@@ -69,7 +69,7 @@ public class StartupService implements IStartupService
 		
 		// create welcome message
 		Message guestMessage = new Message();
-		guestMessage.setMessage("Welcome in hibernate4gwt sample application");
+		guestMessage.setMessage("Welcome in Gilead sample application");
 		guestMessage.setDate(new Date());
 		guestUser.addMessage(guestMessage);
 		

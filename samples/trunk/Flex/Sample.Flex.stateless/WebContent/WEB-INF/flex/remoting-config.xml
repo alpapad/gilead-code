@@ -59,5 +59,13 @@
 		    <scope>session</scope>
 		</properties>
 	</destination>
+	
+	<destination id="requestService">
+    	<adapter ref="persistent-adapter" />
+		<properties>
+			<source>net.sf.gilead.blazeds.remoting.RequestService</source>
+		    <scope>session</scope>
+		</properties>
+	</destination>
 
 </service>

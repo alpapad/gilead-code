@@ -94,6 +94,9 @@
 	</mx:Script>
 	<mx:HDividedBox left="0" right="0" top="0" bottom="0">
 		<mx:VBox height="100%">
+		<ns1:RequestPanel>
+		</ns1:RequestPanel>
+		<mx:HRule width="100%"/>
 		<ns1:NewMessagePanel>
 		</ns1:NewMessagePanel>
 				  
