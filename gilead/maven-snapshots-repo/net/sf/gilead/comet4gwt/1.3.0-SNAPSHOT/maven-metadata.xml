@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+  <groupId>net.sf.gilead</groupId>
+  <artifactId>comet4gwt</artifactId>
+  <version>1.3.0-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20091216.212834</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <lastUpdated>20091216221127</lastUpdated>
+  </versioning>
+</metadata>
