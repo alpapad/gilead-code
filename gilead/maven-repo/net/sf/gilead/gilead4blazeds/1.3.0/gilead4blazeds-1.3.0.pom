@@ -39,5 +39,9 @@
 			<groupId>com.adobe.blazeds</groupId>
 			<artifactId>blazeds-remoting</artifactId>
 		</dependency>
+		<dependency>
+		   <groupId>javax.servlet</groupId>
+		   <artifactId>servlet-api</artifactId>
+		</dependency>
 	</dependencies>
 </project>
