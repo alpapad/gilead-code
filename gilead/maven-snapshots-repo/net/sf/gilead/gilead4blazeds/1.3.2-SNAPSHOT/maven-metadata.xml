@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+  <groupId>net.sf.gilead</groupId>
+  <artifactId>gilead4blazeds</artifactId>
+  <version>1.3.2-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20100413.143252</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <lastUpdated>20100413151006</lastUpdated>
+  </versioning>
+</metadata>
