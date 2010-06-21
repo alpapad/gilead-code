@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><metadata>
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
   <groupId>net.sf.gilead</groupId>
   <artifactId>gilead-actionscript</artifactId>
   <version>1.3.0-SNAPSHOT</version>
@@ -9,6 +10,6 @@
       <version>1.3.2-SNAPSHOT</version>
       <version>1.3.3-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20100609184444</lastUpdated>
+    <lastUpdated>20100621111516</lastUpdated>
   </versioning>
 </metadata>
